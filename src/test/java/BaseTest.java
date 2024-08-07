@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -20,6 +21,8 @@ public class BaseTest {
     WebDriverWait wait;
 
     Wait fluentWait;
+
+    Actions actions;
 
 
 
@@ -44,6 +47,7 @@ public class BaseTest {
         fluentWait = new FluentWait(driver)
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofSeconds(2));
+        actions = new Actions(driver);
         navigateToPage(baseURL);
     }
 
@@ -52,7 +56,7 @@ public class BaseTest {
         driver.quit();
     }
 
-    protected void submit() throws InterruptedException {
+    protected void submit(){
         //WebElement submit = driver.findElement(By.cssSelector("button[type='submit']"));
         WebElement submit = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.cssSelector("button[type='submit']")));
@@ -77,5 +81,18 @@ public class BaseTest {
 
     protected void navigateToPage(String url) {
         driver.get(url);
+    }
+
+
+    public WebElement hoverPlay() {
+        WebElement play = driver.findElement(By.cssSelector("[data-testid='play-btn']"));
+        actions.moveToElement(play).perform();
+        return wait.until(ExpectedConditions.visibilityOf(play));
+    }
+
+    public boolean isSongPlaying() {
+        WebElement soundBarVisualizer = wait.until(ExpectedConditions.visibilityOfElementLocated
+                (By.cssSelector("[data-testid= 'sound-bar-play']")));
+        return soundBarVisualizer.isDisplayed();
     }
 }
