@@ -4,12 +4,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
 
 import java.util.List;
 
 public class HomeTest extends BaseTest{
 
-    String newPlaylistName = "Sample Edited Playlist";
+
 
     @Test
     public void hoverPlayButton() throws InterruptedException {
@@ -38,7 +40,7 @@ public class HomeTest extends BaseTest{
     }
 
 
-    @Test
+   /* @Test
     public void renamePlaylist() throws InterruptedException {
         String expectedSuccessMsg = "Updated playlist \"Sample Edited Playlist.\"";
         //Login
@@ -55,27 +57,27 @@ public class HomeTest extends BaseTest{
         //Assert that new name has been updated.
         Assert.assertEquals(getRenamePlaylistSuccessMsg(), expectedSuccessMsg);
 
+    }*/
+
+    @Test
+    public void renamePlaylistInProg() throws InterruptedException {
+        String expectedSuccessMsg = "Updated playlist \"Sample Edited Playlist.\"";
+
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+        //Login
+        loginPage.login();
+        homePage.doubleClickPlaylist();
+        homePage.enterNewPlaylistName();
+        Assert.assertEquals(homePage.getRenamePlaylistSuccessMsg(), expectedSuccessMsg);
+
     }
 
-    public void doubleClickPlaylist() {
-        WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector(".playlist:nth-child(6)")));
-        actions.doubleClick(playlistElement).perform();
-    }
 
-    public void enterNewPlaylistName(){
-        WebElement playlistInputField = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("[name='name']")));
-        playlistInputField.sendKeys(Keys.chord(Keys.CONTROL,"A", Keys.BACK_SPACE));
-        playlistInputField.sendKeys(newPlaylistName);
-        playlistInputField.sendKeys(Keys.ENTER);
-    }
 
-    public String getRenamePlaylistSuccessMsg(){
-        WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("div.success.show")));
-        return notification.getText();
-    }
+
+
+
 
 
     public void choosePlaylistByName(String playlistName) {
