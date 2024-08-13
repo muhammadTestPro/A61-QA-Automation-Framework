@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pageFactory.LoginPageFactory;
 import pages.HomePage;
 import pages.LoginPage;
 
@@ -101,6 +102,20 @@ public class LoginTests extends BaseTest {
         loginPage.providePassword(password);
         loginPage.clickSubmit();
         Assert.assertEquals(driver.getCurrentUrl(), expectedUrl);
+    }
+
+    @Test
+    public void positiveLoginTestUsingPageFactory(){
+        //Objects
+        LoginPageFactory loginPageFactory = new LoginPageFactory(driver);
+        HomePage homePage = new HomePage(driver);
+        //Steps
+        loginPageFactory.provideEmail("demo@testPro.io")
+                .providePassword("te$t$tudent")
+                .clickSubmitBtn();
+        //loginPage.login();
+        //Expected vs Actual
+        Assert.assertTrue(homePage.getUserAvatar().isDisplayed());
     }
 
 

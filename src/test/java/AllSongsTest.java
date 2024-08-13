@@ -3,10 +3,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.AllSongsPage;
+import pages.HomePage;
+import pages.LoginPage;
 
 public class AllSongsTest extends BaseTest{
 
-    @Test
+    /*@Test
     public void playSong() throws InterruptedException {
         //login
         enterEmail("demo@testPro.io");
@@ -24,23 +27,29 @@ public class AllSongsTest extends BaseTest{
         //Thread.sleep(2000);
         //verify that song is playing
         Assert.assertTrue(isSongPlaying());
+    }*/
+
+
+    @Test
+    public void playSongWithContextClick() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
+        AllSongsPage allSongsPage = new AllSongsPage(driver);
+
+        loginPage.login();
+        homePage.chooseAllSongsList();
+        homePage.contextClickFirstSong();
+        allSongsPage.choosePlayOption();
+        //verify that song is playing
+        Assert.assertTrue(allSongsPage.isSongPlaying());
     }
 
-    public void choosePlayOption() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("li.playback"))).click();
-    }
 
-    public void contextClickFirstSong() {
-        WebElement firstSongElement = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector(".all-songs tr.song-item:nth-child(1)")));
-        actions.contextClick(firstSongElement).perform();
-    }
 
-    public void chooseAllSongsList() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("li a.songs"))).click();
-    }
+
+
+
+
 
 
 

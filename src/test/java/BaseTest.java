@@ -84,15 +84,7 @@ public class BaseTest {
     }
 
 
-    public WebElement hoverPlay() {
-        WebElement play = driver.findElement(By.cssSelector("[data-testid='play-btn']"));
-        actions.moveToElement(play).perform();
-        return wait.until(ExpectedConditions.visibilityOf(play));
-    }
 
-    public boolean isSongPlaying() {
-        WebElement soundBarVisualizer = wait.until(ExpectedConditions.visibilityOfElementLocated
-                (By.cssSelector("[data-testid= 'sound-bar-play']")));
-        return soundBarVisualizer.isDisplayed();
-    }
+
+
 }

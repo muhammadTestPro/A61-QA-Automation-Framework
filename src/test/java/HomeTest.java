@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.HomePage;
+import pages.LoginPage;
 
 import java.util.List;
 
@@ -13,13 +15,12 @@ public class HomeTest extends BaseTest{
 
     @Test
     public void hoverPlayButton() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(driver);
+        HomePage homePage = new HomePage(driver);
         //login
-        enterEmail("demo@testPro.io");
-        enterPassword("te$t$tudent");
-        submit();
-        Thread.sleep(2000);
+        loginPage.login();
         //verify Play or Resume button is visible with mouse hover
-        Assert.assertTrue(hoverPlay().isDisplayed());
+        Assert.assertTrue(homePage.hoverPlay().isDisplayed());
     }
 
     @Test
